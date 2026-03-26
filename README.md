@@ -68,6 +68,8 @@ pnpm build
 pnpm typecheck
 ```
 
+Hinweis: `pnpm build` erzeugt ein **gebundletes & minifiziertes** `dist/index.js` via Rolldown und `dist/index.d.ts` via `tsc`.
+
 ## Release (npm)
 
 ```bash

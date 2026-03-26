@@ -56,12 +56,7 @@ export type CreateJustTOptions<
   locale: L;
   messages: M;
   fallbackLocale?: L;
-  /**
-   * dev: throw on missing key / missing interpolation params
-   * prod: return the key (silent + fast)
-   *
-   * Default: NODE_ENV !== "production"
-   */
+  // dev=true: throw (missing key/params). dev=false: return key. Default: NODE_ENV !== "production"
   dev?: boolean;
 };
 
@@ -80,7 +75,9 @@ export type JustT<
 };
 
 function isPluralMessage(x: unknown): x is PluralMessage {
-  return !!x && typeof x === "object" && "one" in (x as any) && "other" in (x as any);
+  if (!x || typeof x !== "object") return false;
+  const anyX = x as any;
+  return typeof anyX.one === "string" && typeof anyX.other === "string";
 }
 
 function getByDotPath(obj: unknown, path: string): unknown {
@@ -95,17 +92,19 @@ function getByDotPath(obj: unknown, path: string): unknown {
 const PARAM_RE = /\{(\w+)\}/g;
 
 function interpolate(template: string, params: Record<string, Primitive> | undefined, dev: boolean, keyForErrors: string): string {
-  const missing: string[] = [];
+  if (!template.includes("{")) return template;
+
+  const missing = dev ? ([] as string[]) : null;
   const out = template.replace(PARAM_RE, (_m, name: string) => {
     const v = params?.[name];
     if (v === undefined) {
-      missing.push(name);
+      missing?.push(name);
       return `{${name}}`;
     }
     return String(v);
   });
 
-  if (dev && missing.length) {
+  if (missing && missing.length) {
     throw new Error(`[just-t] Missing interpolation params for "${keyForErrors}": ${missing.join(", ")}`);
   }
   return out;
@@ -151,27 +150,29 @@ export function createJustT<
       currentLocale = next;
     },
     t(key: any, params?: any) {
-      const raw = resolveWithFallback(String(key));
+      const k = String(key);
+      const raw = resolveWithFallback(k);
       if (raw === undefined) {
-        return failOrKey(String(key), `[just-t] Missing key: "${String(key)}" (locale "${currentLocale}")`);
+        return failOrKey(k, `[just-t] Missing key: "${k}" (locale "${currentLocale}")`);
       }
 
       if (typeof raw === "string") {
-        return interpolate(raw, params, dev, String(key));
+        return interpolate(raw, params, dev, k);
       }
 
       if (isPluralMessage(raw)) {
         const count = params?.count;
         if (typeof count !== "number") {
-          return failOrKey(String(key), `[just-t] Missing "count" for plural key: "${String(key)}"`);
+          return failOrKey(k, `[just-t] Missing "count" for plural key: "${k}"`);
         }
         const tpl = count === 1 ? raw.one : raw.other;
-        return interpolate(tpl, { ...params, count }, dev, String(key));
+        // Avoid copying params in the hot path. We only require that `count` is present.
+        return interpolate(tpl, params, dev, k);
       }
 
       return failOrKey(
-        String(key),
-        `[just-t] Key "${String(key)}" did not resolve to a string or plural message`
+        k,
+        `[just-t] Key "${k}" did not resolve to a string or plural message`
       );
     }
   };

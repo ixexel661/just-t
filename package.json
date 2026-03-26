@@ -24,15 +24,16 @@
   "scripts": {
     "dev": "tsx src/dev.ts",
     "clean": "rm -rf dist",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "pnpm run clean && rolldown -c rolldown.config.mjs && tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepack": "pnpm run clean && pnpm run build",
+    "prepack": "pnpm run build",
     "pack": "pnpm run prepack && pnpm -s pack"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "rolldown": "^1.0.0-rc.12",
     "tsx": "^4.21.0",
     "typescript": "6.0.2"
   }
