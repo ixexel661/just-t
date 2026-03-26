@@ -1,16 +1,16 @@
 # just-t
 
-Die kleinste i18n-Library für den Alltag: **JSON rein → String raus**.
+The smallest practical i18n library: **JSON in → string out**.
 
 ## Features
 
 - **Zero config**: `createJustT({ locale, messages })`
 - **Interpolation**: `"Hello {name}"`
-- **Optionale, super simple Plurals**: `one/other` via `count === 1`
-- **Fail loudly**: in `dev` wird bei fehlenden Keys/Params **geworfen**, in `prod` kommt der **Key zurück**
+- **Optional, super simple plurals**: `one/other` via `count === 1`
+- **Fail loudly**: in `dev` it **throws** on missing keys/params, in `prod` it returns the **key**
 - **Type Safety**:
-  - Keys werden aus `messages` abgeleitet
-  - Params werden (bei `as const`) aus `{placeholders}` abgeleitet (bei Plurals inkl. `count: number`)
+  - Keys are derived from `messages`
+  - Params are derived from `{placeholders}` (with `as const`; for plurals includes `count: number`)
 
 ## Install
 
@@ -68,7 +68,7 @@ pnpm build
 pnpm typecheck
 ```
 
-Hinweis: `pnpm build` erzeugt ein **gebundletes & minifiziertes** `dist/index.js` via Rolldown und `dist/index.d.ts` via `tsc`.
+Note: `pnpm build` produces a **bundled & minified** `dist/index.js` via Rolldown and `dist/index.d.ts` via `tsc`.
 
 ## Release (npm)
 
@@ -76,13 +76,13 @@ Hinweis: `pnpm build` erzeugt ein **gebundletes & minifiziertes** `dist/index.js
 # optional: login
 npm login
 
-# Version bump (oder manuell in package.json)
+# version bump (or edit package.json manually)
 pnpm version patch
 
-# prüfen, was ins Paket kommt
+# see what gets published
 pnpm pack
 
-# publish (baut automatisch via prepack)
+# publish (builds automatically via prepack)
 npm publish
 ```
 

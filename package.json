@@ -1,7 +1,7 @@
 {
   "name": "just-t",
-  "version": "0.1.0",
-  "description": "Tiny i18n: JSON in → string out.",
+  "version": "0.1.1",
+  "description": "The smallest practical i18n library: JSON in → string out.",
   "keywords": [
     "i18n",
     "translation",
