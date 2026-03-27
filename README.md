@@ -23,7 +23,7 @@ pnpm add just-t
 ```ts
 import { createJustT } from "just-t";
 
-const i18n = createJustT({
+const justT = createJustT({
   locale: "en",
   fallbackLocale: "de",
   messages: {
@@ -40,9 +40,9 @@ const i18n = createJustT({
   } as const
 });
 
-i18n.t("welcome");
-i18n.t("hello_user", { name: "Max" });
-i18n.t("items", { count: 3 });
+justT.t("welcome");
+justT.t("hello_user", { name: "Max" });
+justT.t("items", { count: 3 });
 ```
 
 ## API (Exports)
