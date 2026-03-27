@@ -5,7 +5,7 @@ export default defineConfig({
 	output: {
 		file: "dist/index.js",
 		format: "esm",
-		sourcemap: true,
+		sourcemap: false,
 	},
 	platform: "neutral",
 	minify: true,
