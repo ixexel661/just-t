@@ -31,13 +31,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: pnpm lint
+        run: pnpm -r lint
 
       - name: Typecheck
-        run: pnpm typecheck
+        run: pnpm -r typecheck
 
       - name: Test
-        run: pnpm test
+        run: pnpm -r test
 
   publish:
     name: Publish to npm
@@ -68,6 +68,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Check if version already published
+        working-directory: packages/just-t
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          set +e
+          npm view "just-t@${VERSION}" version >/dev/null 2>&1
+          ALREADY_PUBLISHED=$?
+          set -e
+          if [ "${ALREADY_PUBLISHED}" -eq 0 ]; then
+            echo "just-t@${VERSION} is already published. Skipping publish."
+            exit 0
+          fi
+
       - name: Verify npm token is set
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NODE_AUTH_TOKEN }}
@@ -83,6 +96,7 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
 
       - name: Publish package
+        working-directory: packages/just-t
         run: pnpm publish --access public --provenance --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN || secrets.NODE_AUTH_TOKEN }}

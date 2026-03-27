@@ -45,6 +45,44 @@ justT.t("hello_user", { name: "Max" });
 justT.t("items", { count: 3 });
 ```
 
+## Messages from JSON
+
+You can keep messages in one or multiple JSON files and load them into `createJustT`.
+
+### Browser (or any runtime): JSON string/object
+
+```ts
+import { createJustT } from "just-t";
+
+const i18n = createJustT({
+  locale: "en",
+  json: `{
+    "en": { "welcome": "Hello" },
+    "de": { "welcome": "Hallo" }
+  }`,
+});
+```
+
+If your JSON is a single-locale message tree, provide `jsonLocale`:
+
+```ts
+const i18n = createJustT({
+  locale: "en",
+  jsonLocale: "en",
+  json: { welcome: "Hello" }
+});
+```
+
+### Node.js: file/folder
+
+```ts
+// Node only
+const i18n = await createJustT({
+  locale: "en",
+  folder: "./locales" // en.json, de.json, ...
+});
+```
+
 ## API (Exports)
 
 ```ts
@@ -71,20 +109,4 @@ pnpm typecheck
 ```
 
 Note: `pnpm build` produces a **bundled & minified** `dist/index.js` via Rolldown and `dist/index.d.ts` via `tsc`.
-
-## Release (npm)
-
-```bash
-# optional: login
-npm login
-
-# version bump (or edit package.json manually)
-pnpm version patch
-
-# see what gets published
-pnpm pack
-
-# publish (builds automatically via prepack)
-npm publish
-```
 

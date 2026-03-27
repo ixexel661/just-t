@@ -4,22 +4,50 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@biomejs/biome':
+      specifier: 2.4.9
+      version: 2.4.9
+    '@types/node':
+      specifier: ^22.14.0
+      version: 22.19.15
+    rolldown:
+      specifier: ^1.0.0-rc.12
+      version: 1.0.0-rc.12
+    typescript:
+      specifier: 6.0.2
+      version: 6.0.2
+    vitest:
+      specifier: ^4.1.2
+      version: 4.1.2
+
 importers:
 
-  .:
+  .: {}
+
+  packages/just-t:
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.4.9
+        specifier: 'catalog:'
         version: 2.4.9
+      '@just-t/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.15
       rolldown:
-        specifier: ^1.0.0-rc.12
+        specifier: 'catalog:'
         version: 1.0.0-rc.12
       typescript:
-        specifier: 6.0.2
+        specifier: 'catalog:'
         version: 6.0.2
       vitest:
-        specifier: ^4.1.2
-        version: 4.1.2(vite@8.0.3(esbuild@0.27.4)(tsx@4.21.0))
+        specifier: 'catalog:'
+        version: 4.1.2(@types/node@22.19.15)(vite@8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0))
+
+  packages/tsconfig: {}
 
 packages:
 
@@ -357,6 +385,9 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
+  '@types/node@22.19.15':
+    resolution: {integrity: sha512-F0R/h2+dsy5wJAUe3tAU6oqa2qbWY5TpNfL/RGmo1y38hiyO1w3x2jPtt76wmuaJI4DQnOBu21cNXQ2STIUUWg==}
+
   '@vitest/expect@4.1.2':
     resolution: {integrity: sha512-gbu+7B0YgUJ2nkdsRJrFFW6X7NTP44WlhiclHniUhxADQJH5Szt9mZ9hWnJPJ8YwOK5zUOSSlSvyzRf0u1DSBQ==}
 
@@ -576,6 +607,9 @@ packages:
     resolution: {integrity: sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   vite@8.0.3:
     resolution: {integrity: sha512-B9ifbFudT1TFhfltfaIPgjo9Z3mDynBTJSUYxTjOQruf/zHH+ezCQKcoqO+h7a9Pw9Nm/OtlXAiGT1axBgwqrQ==}
@@ -867,6 +901,10 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
+  '@types/node@22.19.15':
+    dependencies:
+      undici-types: 6.21.0
+
   '@vitest/expect@4.1.2':
     dependencies:
       '@standard-schema/spec': 1.1.0
@@ -876,13 +914,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
-  '@vitest/mocker@4.1.2(vite@8.0.3(esbuild@0.27.4)(tsx@4.21.0))':
+  '@vitest/mocker@4.1.2(vite@8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 4.1.2
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.0.3(esbuild@0.27.4)(tsx@4.21.0)
+      vite: 8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0)
 
   '@vitest/pretty-format@4.1.2':
     dependencies:
@@ -1091,7 +1129,9 @@ snapshots:
 
   typescript@6.0.2: {}
 
-  vite@8.0.3(esbuild@0.27.4)(tsx@4.21.0):
+  undici-types@6.21.0: {}
+
+  vite@8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -1099,14 +1139,15 @@ snapshots:
       rolldown: 1.0.0-rc.12
       tinyglobby: 0.2.15
     optionalDependencies:
+      '@types/node': 22.19.15
       esbuild: 0.27.4
       fsevents: 2.3.3
       tsx: 4.21.0
 
-  vitest@4.1.2(vite@8.0.3(esbuild@0.27.4)(tsx@4.21.0)):
+  vitest@4.1.2(@types/node@22.19.15)(vite@8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0)):
     dependencies:
       '@vitest/expect': 4.1.2
-      '@vitest/mocker': 4.1.2(vite@8.0.3(esbuild@0.27.4)(tsx@4.21.0))
+      '@vitest/mocker': 4.1.2(vite@8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0))
       '@vitest/pretty-format': 4.1.2
       '@vitest/runner': 4.1.2
       '@vitest/snapshot': 4.1.2
@@ -1123,8 +1164,10 @@ snapshots:
       tinyexec: 1.0.4
       tinyglobby: 0.2.15
       tinyrainbow: 3.1.0
-      vite: 8.0.3(esbuild@0.27.4)(tsx@4.21.0)
+      vite: 8.0.3(@types/node@22.19.15)(esbuild@0.27.4)(tsx@4.21.0)
       why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 22.19.15
     transitivePeerDependencies:
       - msw
 

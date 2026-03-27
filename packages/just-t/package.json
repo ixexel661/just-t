@@ -1,0 +1,59 @@
+{
+	"name": "just-t",
+	"version": "0.2.0",
+	"description": "The smallest practical i18n library: JSON in → string out.",
+	"keywords": [
+		"i18n",
+		"translation",
+		"intl",
+		"typescript",
+		"tiny"
+	],
+	"license": "MIT",
+	"type": "module",
+	"sideEffects": false,
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "pnpm run clean && rolldown -c rolldown.config.mjs && tsc -p tsconfig.build.json",
+		"test": "vitest run test/index.test.ts",
+		"test:watch": "vitest test/index.test.ts",
+		"test:types": "tsc -p tsconfig.test.json --noEmit",
+		"lint": "biome check --write .",
+		"format": "biome format --write .",
+		"typecheck": "tsc -p tsconfig.json --noEmit",
+		"prepack": "pnpm run build",
+		"pack": "pnpm run prepack && pnpm -s pack"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ixexel661/just-t"
+	},
+	"bugs": {
+		"url": "https://github.com/ixexel661/just-t/issues"
+	},
+	"homepage": "https://github.com/ixexel661/just-t",
+	"devDependencies": {
+		"@biomejs/biome": "catalog:",
+		"@just-t/tsconfig": "workspace:*",
+		"@types/node": "catalog:",
+		"rolldown": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}
