@@ -63,7 +63,9 @@ import {
 
 ```bash
 pnpm install
-pnpm dev
+pnpm test
+pnpm test:watch
+pnpm test:types
 pnpm build
 pnpm typecheck
 ```
