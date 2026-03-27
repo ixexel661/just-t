@@ -14,7 +14,11 @@
   "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -25,6 +29,8 @@
     "dev": "tsx src/dev.ts",
     "clean": "rm -rf dist",
     "build": "pnpm run clean && rolldown -c rolldown.config.mjs && tsc -p tsconfig.build.json",
+    "lint": "biome check --write .",
+    "format": "biome format --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "prepack": "pnpm run build",
     "pack": "pnpm run prepack && pnpm -s pack"
@@ -33,6 +39,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.9",
     "rolldown": "^1.0.0-rc.12",
     "tsx": "^4.21.0",
     "typescript": "6.0.2"

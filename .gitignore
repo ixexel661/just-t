@@ -3,4 +3,6 @@ dist
 .pnpm-store
 *.tsbuildinfo
 *.tgz
+.DS_Store
+.vscode
 
