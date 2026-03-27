@@ -40,6 +40,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ixexel661/just-t"
+  },
+  "bugs": {
+    "url": "https://github.com/ixexel661/just-t/issues"
+  },
+  "homepage": "https://github.com/ixexel661/just-t",
   "devDependencies": {
     "@biomejs/biome": "2.4.9",
     "rolldown": "^1.0.0-rc.12",
